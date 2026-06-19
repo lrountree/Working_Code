@@ -1,0 +1,42 @@
+/* Author: Lucas Rountree
+*  Date: 06_2026
+*  MCU: ATMEGA32U4-MU
+*  Board: Pro Micro
+*  Depends: Adafruit GFX, BUSIO, and GC9A01A libraries
+*  Permission: Free to use, free of charge.
+*/
+
+#ifndef _PRO_MICRO_32U4_H_
+#define _PRO_MICRO_32U4_H_
+
+#include <Adafruit_GFX.h>
+#include <Adafruit_GC9A01A.h>
+
+#define RST_PIN A0
+#define CS_PIN 10
+#define DC_PIN 9
+#define SDA_PIN 16
+#define SCL_PIN 15
+
+#define LCD_WIDTH 240
+#define LCD_HEIGHT 240
+
+// Color definitions
+#define BLACK    0x0000
+#define BLUE     0x001F
+#define RED      0xF800
+#define GREEN    0x07E0
+#define CYAN     0x07FF
+#define MAGENTA  0xF81F
+#define YELLOW   0xFFE0
+#define WHITE    0xFFFF
+
+#define SPI_DEFAULT_FREQ 160000000
+
+SPISettings Pro_Micro_Settings(160000000, MSBFIRST, SPI_MODE1);
+
+void serial_setup();
+void drawPixel(uint16_t x, uint16_t y, uint16_t color);
+
+
+#endif

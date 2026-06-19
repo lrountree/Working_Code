@@ -1,0 +1,19 @@
+/* Author: Lucas Rountree
+*  Date: 06_2026
+*  MCU: ATMEGA32U4-MU
+*  Board: Pro Micro
+*  Permission: Free to use, free of charge.
+*/
+
+#include "pro_micro_32u4.h"
+
+#define RST_PIN 18
+#define CS_PIN 10
+#define DC_PIN 14
+#define SDA_PIN 16
+#define SCL_PIN 15
+
+#define LCD_WIDTH 240
+#define LCD_HEIGHT 240
+
+SPISettings Pro_Micro_Settings(160000000, MSBFIRST, SPI_MODE3);

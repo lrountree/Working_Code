@@ -1,0 +1,20 @@
+/* Author: Lucas Rountree
+ * Date: 06_2026
+ * MCU: ATMEGA32U4-MU
+ * Board: Pro Micro
+ * Permission: Free to us, free of charge
+ */
+
+#include "pro_micro_32u4.h"
+
+void Pin_Init() {
+	pinMode(CS_PIN, OUTPUT);
+}
+
+void SPI_INIT() {
+	Pin_Init();
+
+	Serial.begin(115200);
+
+	SPI.begin();
+}
