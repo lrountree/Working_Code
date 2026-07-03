@@ -19,9 +19,9 @@ uint32_t DebounceLast = 0;
 uint32_t DebounceDelay = 50; //in milliseconds
 
 // LTR390 ALS+UV Sensor
-const uint8_t UV_SDA 2
-const uint8_t UV_SCL 3
-const uint8_t UV_INT 4
+//const uint8_t UV_SDA 2
+//const uint8_t UV_SCL 3
+//const uint8_t UV_INT 4
 
 // 1.28 round LCD TFT display GC9A01A
 const uint8_t RST_PIN = A0;
@@ -35,7 +35,7 @@ const uint8_t LCD_HEIGHT = 240;
 
 const unsigned long SPI_FREQ = 160000000;
 
-SPISettings Pro_Micro_Settings(SPI_FREQ, MSBFIRST, SPI_MODE1);
+//SPISettings Pro_Micro_Settings(SPI_FREQ, MSBFIRST, SPI_MODE1);
 
 Adafruit_GC9A01A tft(CS_PIN, DC_PIN, RST_PIN);
 

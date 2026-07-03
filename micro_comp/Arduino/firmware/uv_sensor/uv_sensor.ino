@@ -41,6 +41,10 @@
 #define  ltrThreshLow0   0b00100100         //  0x24  lower interrupt threshold byte
 #define  ltrThreshLow1   0b00100101         //  0x25  lower interrupt threshold byte
 #define  ltrThreshLow2   0b00100110         //  0x26  lower interrupt threshold byte
+// - EEPROM -
+// Total memory registers: 0-1000
+// Sensor address range: 10-100
+// Display address range: 101-200
 // EEPROM Addresses
 #define  ltrMode         10                 //  ALS(0) or UVS(1) mode, bit 3
 #define  ltrModeState    11                 //  Sensor activity standby(0) or active(1), bit 1
@@ -48,8 +52,8 @@
 #define  ltrMeasRate     13                 //  Sensor Measurement rate, bits 0-2
 #define  ltrGainRange    14                 //  Sensor Gain Range, bits 0-2
 // Push Buttons
-#define  pbOne           6                  //  Power, Navigation, Menu
-#define  pbTwo           7                  //  Start, Stop, Select
+#define  pbOne           7                  //  Power, Select, Exit
+#define  pbTwo           6                  //  Navigation, Start, Stop
 // Sensor
 #define uvSDA            2                  //  I2C data pin
 #define uvSCL            3                  //  I2C clock pin
@@ -60,13 +64,12 @@
 #define lcdDC            9                  //  LCD Data/Command pin
 #define lcdSDA           16                 //  LCD Serial Data pin (PICO/MOSI)
 #define lcdSCL           15                 //  LCD Clock pin
-#define lcdWidth         240                //  LCD Width in pixels
-#define lcdHeight        240                //  LCD Height in pixels
+#define lcdDiameter      240                //  LCD is round, so width and height are the same
 #define spiFreq          160000000          //  LCD SPI Clock Frequency
-#define lcdPurple        GC9A01A_PURPLE
-#define lcdGreen         GC9A01A_GREEN
-#define lcdBlack         GC9A01A_BLACK
-#define lcdWhite         GC9A01A_WHITE
+#define monGreen         0x17E2
+#define uvPurple         0xE1FC
+#define BLACK            GC9A01A_BLACK
+#define WHITE            GC9A01A_WHITE
 
 // Variables
 bool pb1LastState = HIGH;                    //  Push Button 1 last pin state
@@ -110,10 +113,8 @@ typedef enum {
   Gain_18
 } sensorGain;
 
-// - EEPROM -
-// Total memory registers: 0-1000
-// Sensor address range: 10-100
-// Display address range: 101-200
+// Set LCD pins
+Adafruit_GC9A01A lcd(lcdCS, lcdDC, lcdRST);
 
 // Setup Function
 void setup() {
@@ -125,37 +126,40 @@ void setup() {
   // Initialize push buttons
   pinMode(pbOne, INPUT_PULLUP);                     
   pinMode(pbTwo, INPUT_PULLUP);
-  Serial.println("Push Buttons: INITIALIZED");
+  Serial.println("Push Buttons: ONLINE");
 
   // Start wire (I2C) service
   Wire.begin();                              //  Initiate I2C connection via Wire
   Wire.setClock(400000);                     //  Set clock frequency
   Wire.setWireTimeout(25000, true);          //  Set timeout for Wire
-  Serial.println("Wire Config: COMPLETE"); 
+  Serial.println("I2C Wire: ONLINE"); 
   
   // Initialize LCD (SPI)
-  Adafruit_GC9A01A lcd(lcdCS, lcdDC, lcdRST);
   lcd.begin(spiFreq);
   lcd.setRotation(0);
-  lcd.fillScreen(lcdBlack);
-  Serial.println("LCD: INITIALIZED");
+  lcd.fillScreen(BLACK);
+  Serial.println("LCD: ONLINE");
 
-  // Configure User Settings
+  // Configure Sensor User Settings
   byte modeSetting = EEPROM.read(ltrMode);
   byte statusSetting = EEPROM.read(ltrModeState);
   byte resSetting = EEPROM.read(ltrResolution);
   byte measSetting = EEPROM.read(ltrMeasRate);
-  byte gainSetting = EEPROM.read(ltrGainRate);
-  byte modestatusSetting = modeSetting + statusSetting
+  byte gainSetting = EEPROM.read(ltrGainRange);
+  byte modestatusSetting = modeSetting + statusSetting;
   byte resmeasSetting = resSetting + measSetting;
   writeRegister(ltrMainControl, modestatusSetting);
   writeRegister(ltrResMeas, resmeasSetting);
   writeRegister(ltrGain, gainSetting);
-  Serial.println("User Settings: CONFIGURED");
+  Serial.println("Sensor User Settings Configuration: COMPLETE");
 
   // Run Opening Graphic
-
+  drawSplash(WHITE);
+  drawSplash(BLACK);
+  drawSplash(uvPurple);
+  drawCross(uvPurple);
 }
+
 // Loop Function
 void loop() {
   bool buttonPush_1 = digitalRead(pbOne);
@@ -209,11 +213,14 @@ byte readRegister (byte registerAddress,
   Wire.requestFrom(deviceAddress, 1);
   if (Wire.available()) {
     return Wire.read();
+  } else {
+    Serial.println("Read Register: FAILED");
+    return 0;
   }
 }
 
 // Write Data to I2C Register Address
-void writeRegister (byte registerAddress,
+void writeRegister(byte registerAddress,
     byte inputData,
     int deviceAddress =  ltrAddress) {
   Wire.beginTransmission(deviceAddress);
@@ -248,6 +255,43 @@ void writeRegister (byte registerAddress,
       Serial.print(" written to ");
       Serial.println(registerAddress, BIN);
     }
+  }
+}
+
+void drawCross(uint16_t color){
+  // cross animation
+  int _incr = 2;
+  int _HD = lcdDiameter / 2;
+  for (int i = 0; i <= _HD ; i += _incr) {
+    int sub_hd = _HD - i;
+    int add_hd = _HD + i;
+    int sub_inc_hd = sub_hd - _incr;
+    int add_inc_hd = add_hd + _incr;
+    lcd.drawLine(_HD, sub_hd, _HD, sub_inc_hd, color);  // North
+    lcd.drawLine(add_hd, _HD, add_inc_hd, _HD, color);  // East
+    lcd.drawLine(_HD, add_hd, _HD, add_inc_hd, color);  // South
+    lcd.drawLine(sub_hd, _HD, sub_inc_hd, _HD, color);  // West
+    delay(8);
+  }
+}
+
+void drawSplash(uint16_t color){
+  // x animation
+  int _incrx = 20;
+  int _dia = lcdDiameter;
+  int _HD = _dia / 2;
+  for (int i = _incrx; i < _HD; i += _incrx) {
+    int sub_hd = _HD - i;
+    int add_hd = _HD + i;
+    lcd.drawLine(sub_hd, _dia, add_hd, 0, color);
+    lcd.drawLine(0, sub_hd, _dia, add_hd, color);
+    delay(20);
+  }
+  for (int i = _incrx; i < _HD; i += _incrx) {
+    int sub_d = _dia - i;
+    lcd.drawLine(0, sub_d, _dia, i, color);
+    lcd.drawLine(i, 0, sub_d, _dia, color);
+    delay(20);
   }
 }
 
