@@ -86,18 +86,20 @@ void mainMenu(uint16_t color){
   lcd.println("START");
   int _x;
   int _y;
-  char _menus[3][4] = {
+  list<char> _mlist("hello", "world");
+  char *_menus[3][4] = {
     {"Settings", "Info", "Sensor", "Battery"}, // Menu titles
     {20, 150, 20, 150}, // Starting X value
-    {152, 200, 100, 50},  // Starting Y value
+    {152, 200, 100, 50}  // Starting Y value
   };
-  for (byte _t = 0; _t < (sizeof(_menus[]) / sizeof(_menus[0])); _t++) {
-    _x = _menus[_t][_t];
-    _y = _menus[_t][_t][_t];
+  for (size_t _t = 0; _t < (sizeof(_menus) / sizeof(_menus[0])); _t++) {
+    _x = _menus[1][_t];
+    _y = _menus[2][_t];
     lcd.setTextSize(2);
-    for (char &_c : _menus[_t]; _x += 11; _y += 8;) {
+    string::iterator _c
+    for (_c = _menus[0][_t].begin(); _c != _menus[0][_t].end(); _c++; _x += 11; _y += 8) {
       lcd.setCursor(_x, _y);
-      lcd.println(_i);
+      lcd.println(*_c);
     }
   }
 }
