@@ -81,25 +81,32 @@ void mainMenu(uint16_t color){
     delay(6);
   }
   // Menu text
+  Serial.begin(115200);
+  while(!Serial);
+  Serial.println("Drawing main menu");
   lcd.setCursor(77, 125);
   lcd.setTextSize(3);
   lcd.println("START");
-  int _x;
-  int _y;
-  list<char> _mlist("hello", "world");
-  char *_menus[3][4] = {
-    {"Settings", "Info", "Sensor", "Battery"}, // Menu titles
-    {20, 150, 20, 150}, // Starting X value
-    {152, 200, 100, 50}  // Starting Y value
+  const char* _menu_t[] = {"Settings", "Info", "Battery", "Sensor"}; // Menu titles
+  int _menu_xy[2][4] = {
+    {20, 150, 150, 20}, // Starting X value
+    {152, 200, 50, 100}  // Starting Y value
   };
-  for (size_t _t = 0; _t < (sizeof(_menus) / sizeof(_menus[0])); _t++) {
-    _x = _menus[1][_t];
-    _y = _menus[2][_t];
+  for (int _t = 0; _t < sizeof(_menu_t) / sizeof(_menu_t[0]); _t++) {
+    int _x = _menu_xy[0][_t];
+    int _y = _menu_xy[1][_t];
     lcd.setTextSize(2);
-    string::iterator _c
-    for (_c = _menus[0][_t].begin(); _c != _menus[0][_t].end(); _c++; _x += 11; _y += 8) {
-      lcd.setCursor(_x, _y);
-      lcd.println(*_c);
+    Serial.print("Menu Title: ");
+    Serial.println(_menu_t[_t]);
+    Serial.println(strlen(_menu_t[_t]));
+    for (int _c = 0; _c <= strlen(_menu_t[_t]); if (_c % 2) {
+      _x += 11
+      } else{
+        _x -= 11
+        },
+      _y += 8, _c++) {
+      
+      lcd.println(_menu_t[_t][_c]);
     }
   }
 }
