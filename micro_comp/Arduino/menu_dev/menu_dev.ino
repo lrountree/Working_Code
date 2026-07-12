@@ -15,6 +15,8 @@
 #define _yellow GC9A01A_YELLOW
 #define _blue GC9A01A_BLUE
 #define _cyan GC9A01A_CYAN
+#define _fuchsia GC9A01A_MAGENTA
+#define _brown GC9A01A_GREENYELLOW
 
 Adafruit_GC9A01A lcd(10, 9, A0);
 
@@ -82,37 +84,76 @@ void setup() {
     // Main Cross
   lcd.drawLine(119, 119, 0, 119, uvPurple);
   lcd.drawLine(119, 119, 119, 0, uvPurple);
-  lcd.drawLine(120, 119, 239, 119, uvPurple);
-  lcd.drawLine(119, 120, 119, 239, uvPurple);
+  lcd.drawLine(120, 119, 240, 119, uvPurple);
+  lcd.drawLine(119, 120, 119, 240, uvPurple);
 
   // Qudrant One
-  lcd.drawLine(119, 119, 0, 98, _pink);
-  lcd.drawLine(119, 119, 0, 74, monGreen);
-  lcd.drawLine(119, 119, 0, 42, _blue);
+  lcd.drawLine(119, 119, 0, 104, _white);
+  lcd.drawLine(119, 119, 0, 89, monGreen);
+  lcd.drawLine(119, 119, 0, 74, _white);
+  lcd.drawLine(119, 119, 0, 59, _blue);
+  lcd.drawLine(119, 119, 0, 44, _white);
+  lcd.drawLine(119, 119, 0, 29, _red);
+  lcd.drawLine(119, 119, 0, 14, _white);
   lcd.drawLine(119, 119, 0, 0, _orange);
-  lcd.drawLine(119, 119, 42, 0, _cyan);
-  lcd.drawLine(119, 119, 74, 0, _red);
-  lcd.drawLine(119, 119, 98, 0, _yellow);
+  lcd.drawLine(119, 119, 14, 0, _white);
+  lcd.drawLine(119, 119, 29, 0, _cyan);
+  lcd.drawLine(119, 119, 44, 0, _white);
+  lcd.drawLine(119, 119, 59, 0, _pink);
+  lcd.drawLine(119, 119, 74, 0, _white);
+  lcd.drawLine(119, 119, 89, 0, _yellow);
+  lcd.drawLine(119, 119, 104, 0, _white);
 
   // Quadrant Two
-  lcd.drawLine(119, 120, 98, 239, _pink);
-  lcd.drawLine(119, 120, 74, 239, monGreen);
-  lcd.drawLine(119, 120, 42, 239, _blue);
-  lcd.drawLine(119, 120, 0, 239, _orange);
-  lcd.drawLine(119, 120, 239, 42, _cyan);
-  lcd.drawLine(119, 120, 0, 164, _red);
-  lcd.drawLine(119, 120, 239, 98, _yellow);
+  lcd.drawLine(119, 120, 134, 1, _white);
+  lcd.drawLine(119, 120, 149, 1, monGreen);
+  lcd.drawLine(119, 120, 164, 1, _white);
+  lcd.drawLine(119, 120, 179, 1, _blue);
+  lcd.drawLine(119, 120, 194, 1, _white);
+  lcd.drawLine(119, 120, 209, 1, _red);
+  lcd.drawLine(119, 120, 224, 1, _white);
+  lcd.drawLine(119, 120, 239, 1, _orange);
+  lcd.drawLine(119, 120, 239, 15, _white);
+  lcd.drawLine(119, 120, 239, 30, _cyan);
+  lcd.drawLine(119, 120, 239, 45, _white);
+  lcd.drawLine(119, 120, 239, 60, _pink);
+  lcd.drawLine(119, 120, 239, 75, _white);
+  lcd.drawLine(119, 120, 239, 90, _yellow);
+  lcd.drawLine(119, 120, 239, 105, _white);
 
   // Quadrant Three
-  lcd.drawLine(120, 120, 239, 141, _pink);
-  lcd.drawLine(120, 120, 239, 164, monGreen);
-  lcd.drawLine(120, 120, 239, 239, _orange);
-  lcd.drawLine(120, 120, 164, 239, _red);
+  lcd.drawLine(120, 120, 240, 135, _white);
+  lcd.drawLine(120, 120, 240, 150, monGreen);
+  lcd.drawLine(120, 120, 240, 165, _white);
+  lcd.drawLine(120, 120, 240, 180, _blue);
+  lcd.drawLine(120, 120, 240, 195, _white);
+  lcd.drawLine(120, 120, 240, 210, _red);
+  lcd.drawLine(120, 120, 240, 225, _white);
+  lcd.drawLine(120, 120, 240, 240, _orange);
+  lcd.drawLine(120, 120, 225, 240, _white);
+  lcd.drawLine(120, 120, 210, 240, _cyan);
+  lcd.drawLine(120, 120, 195, 240, _white);
+  lcd.drawLine(120, 120, 180, 240, _pink);
+  lcd.drawLine(120, 120, 165, 240, _white);
+  lcd.drawLine(120, 120, 150, 240, _yellow);
+  lcd.drawLine(120, 120, 135, 240, _white);
 
   // Quadrant Four
-  lcd.drawLine(120, 119, 164, 0, monGreen);
-  lcd.drawLine(120, 119, 239, 0, _orange);
-  lcd.drawLine(120, 119, 239, 74, _red);
+  lcd.drawLine(120, 119, 105, 238, _white);
+  lcd.drawLine(120, 119, 90, 239, monGreen);
+  lcd.drawLine(120, 119, 75, 239, _white);
+  lcd.drawLine(120, 119, 60, 239, _blue);
+  lcd.drawLine(120, 119, 45, 239, _white);
+  lcd.drawLine(120, 119, 30, 239, _red);
+  lcd.drawLine(120, 119, 15, 239, _white);
+  lcd.drawLine(120, 119, 1, 239, _orange);
+  lcd.drawLine(120, 119, 1, 224, _white);
+  lcd.drawLine(120, 119, 1, 209, _cyan);
+  lcd.drawLine(120, 119, 1, 194, _white);
+  lcd.drawLine(120, 119, 1, 179, _pink);
+  lcd.drawLine(120, 119, 1, 164, _white);
+  lcd.drawLine(120, 119, 1, 149, _yellow);
+  lcd.drawLine(120, 119, 1, 134, _white);
 }
 
 void loop() {
