@@ -19,6 +19,7 @@
 #define _brown GC9A01A_GREENYELLOW
 
 Adafruit_GC9A01A lcd(10, 9, A0);
+void drawShape(uint16_t _color, const char* _shape, uint16_t  _size = 108);
 
 void setup() {
   Serial.begin(115200);
@@ -271,24 +272,24 @@ void drawCross(uint16_t _color, const char* _cross) {
   }
 }
 
-void drawShape(uint16_t _color, const char* _shape) {
+void drawShape(uint16_t _color, const char* _shape, uint16_t  _size) {
   // Draw center circle
   if (_shape == "circle") {
-    for (uint8_t i = 0; i <= 108; i += 2) {
-      lcd.drawRoundRect((119 - (i / 2)), (119 - (i / 2)), i, i, (i / 2), _color); // Draw circle
-      lcd.fillRoundRect((119 - (i / 2)) + 3, (119 - (i / 2)) + 3, (i - 6), (i - 6), (i / 2), _black); // Clean lines
+    for (uint8_t _i = 4; _i <= _size; _i += 2) {
+      lcd.drawRoundRect((119 - (_i / 2)), (119 - (_i / 2)), _i, _i, (_i / 2), _color); // Draw circle
+      lcd.fillRoundRect((119 - (_i / 2)) + 3, (119 - (_i / 2)) + 3, (_i - 6), (_i - 6), (_i / 2), _black); // Clean lines
     }
   } else if (_shape == "start") {
-    for (uint8_t i = 0; i <= 108; i += 4) {
-      lcd.drawRoundRect((119 - (i / 2)), (119 - (i / 2)), i, i, (i / 2), _color);
+    for (uint8_t _i = 4; _i <= _size; _i += 2) {
+      lcd.drawRoundRect((119 - (_i / 2)), (119 - (_i / 2)), _i, _i, (_i / 2), _color);
     }
   } else if (_shape == "shrink") {
-    for (uint8_t i = 108; i > 2; i -= 2) {
-      lcd.drawRoundRect((119 - (i / 2)), (119 - (i / 2)), i, i, (i / 2), _color);
-      lcd.fillRect((119 - (i / 2)), 118, 2, 3, uvPurple);
-      lcd.fillRect(118, (119 - (i / 2)), 3, 2, uvPurple);
-      lcd.fillRect(((120 + (i / 2)) - 2), 118, 2, 3, uvPurple);
-      lcd.fillRect(118, ((120 + (i / 2)) + 2), 3, 2, uvPurple);
+    for (uint8_t _i = _size; _i > 2; _i -= 2) {
+      lcd.drawRoundRect((119 - (_i / 2)), (119 - (_i / 2)), _i, _i, (_i / 2), _color);
+      lcd.fillRect((119 - (_i / 2)), 118, 2, 3, uvPurple);
+      lcd.fillRect(118, (119 - (_i / 2)), 3, 2, uvPurple);
+      lcd.fillRect(((120 + (_i / 2)) - 2), 118, 2, 3, uvPurple);
+      lcd.fillRect(118, ((120 + (_i / 2)) + 2), 3, 2, uvPurple);
     }
   }
 }
@@ -456,16 +457,36 @@ void scanMenu(uint16_t _color) {
   }
   drawCross(uvPurple, "thin");
   drawCross(uvPurple, "horz");
-  for (uint8_t _i = 0; _i <= 3; _i++) {
-    lcd.drawRoundRect((3 - _i), (63 - _i), (233 + (_i * 2)), (112 + (2 * _i)), (57 + _i), _color);
-    lcd.drawCircle(119, 119, (55 + _i), _color);
-    lcd.drawLine(0, (118 + _i), 240, (118 + _i), _color);
+  //for (uint8_t _i = 0; _i <= 3; _i++) {
+    //lcd.drawRoundRect((3 - _i), (63 - _i), (233 + (_i * 2)), (112 + (2 * _i)), (57 + _i), _color);
+    //lcd.drawLine(0, (118 + _i), 240, (118 + _i), _color);
+  //}
+  //drawShape(monGreen, "circle", 120);
+  for (uint8_t _i = 1; _i <= 57; _i ++) {
+    lcd.drawRoundRect((62 - _i), 60, (119 + (_i * 2)), 119, 60, _white);
+    lcd.drawRoundRect((66 - _i), 63, (113 + (_i * 2)), 113, 60, _black);
   }
-  lcd.fillCircle(119, 240, 10, _white);
-  lcd.fillCircle(119, 0, 10, uvPurple);
-  for (uint8_t _i = 0; _i <= 88; _i += 22) {
-    lcd.drawLine(119, 240, (75 + _i), 210, _white);
-    lcd.drawLine(119, 0, (75 + _i), 30, uvPurple);
+    //for (uint8_t _x = 0; _x <= 2; _x++){
+      //lcd.drawLine((123 - (2 * _i)), (118 + _x), (119 - (2 * _i)), (118 + _x), _color);
+      //lcd.drawLine((116 + (2 * _i)), (118 + _x), (124 + (2 * _i)), (118 + _x), _color);
+    //}
+ // }
+  drawShape(monGreen, "circle", 120);
+  for (uint8_t _i = 0; _i <= 120; _i += 4) {
+    for (uint8_t _x = 1; _x <= 3; _x++){
+      lcd.drawLine((119 - (2 * _i)), (118 + _x), (115 - (2 * _i)), (118 + _x), _color);
+      lcd.drawLine((120 + (2 * _i)), (118 + _x), (124 + (2 * _i)), (118 + _x), _color);
+    }
+  }
+  for (uint8_t _i = 1; _i <= 10; _i++) {
+    lcd.fillCircle(119, 240, _i, _white);
+    lcd.fillCircle(119, 0, _i, uvPurple);
+  }
+  for (uint8_t _x = 6; _x <= 30; _x += 6) {
+    for (uint8_t _i = 0; _i <= 88; _i += 22) {
+      lcd.drawLine(119, 240, (75 + _i), (240 - _x), _white);
+      lcd.drawLine(119, 0, (75 + _i), (0 + _x), uvPurple);
+    }
   }
   lcd.setTextColor(_color); lcd.setTextSize(2); lcd.setCursor(13, 108); lcd.println("HOLD"); lcd.setCursor(13, 138); lcd.println("EXIT");
   lcd.setTextColor(uvPurple); lcd.setCursor(75, 48); lcd.println("12345"); 
