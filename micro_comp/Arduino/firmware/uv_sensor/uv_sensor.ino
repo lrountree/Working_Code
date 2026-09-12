@@ -86,6 +86,7 @@ typedef enum {
   sensor_active = 2                         //  Activate sensor
 } sensorStatus;
 
+// Sensor Resolution
 typedef enum {
   Res_20 = 0,                               //  20 Bit Resolution, 400ms conversion time
   Res_19 = 16,                              //  19 Bit Resolution, 200ms conversion time
@@ -95,6 +96,7 @@ typedef enum {
   Res_13 = 80                               //  13 Bit Resolution, 12.5ms conversion time
 } sensorResolution;                         //  Higher resolution means higher light sensativity, but also higher noise sensativity and slower speeds
 
+// Sensor Masurement Rate
 typedef enum {
   Meas_25 = 0,                              //  25ms, etc. Higher speeds can measure faster wavelengths but take longer to run
   Meas_50,
@@ -105,6 +107,7 @@ typedef enum {
   Meas_2000
 } sensorMeasureRate;
 
+// Sensor Gain
 typedef enum {
   Gain_1 = 0,                               //  Gain Range, higher range means more electron production, so more accurate readings, and slower speeds
   Gain_3,                                   //  Default setting
