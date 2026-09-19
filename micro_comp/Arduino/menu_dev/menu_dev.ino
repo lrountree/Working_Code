@@ -208,7 +208,18 @@ void setup() {
   shineLight(4, uvPurple, false);
   shineLight(4, uvPurple, true);
   mainMenu("config", 3, monGreen);
-  //delay(1000);
+  delay(1000);
+  for (int _i = 1; _i <= 4; _i++) {
+    shineLight(_i, uvPurple, false);
+    shineLight(_i, uvPurple, true);
+  }
+  drawCross(_black, "thick");
+  drawShape(_black, "circle");
+  for (int _i = 1; _i <= 4; _i++) {
+    shineLight(_i, _black, false);
+    shineLight(_i, _black, true);
+  }
+  configMenu();
 }
 
 void loop() {
@@ -513,4 +524,26 @@ void scanMenu(uint16_t _color) {
   lcd.setTextSize(2); lcd.setCursor(98, 195); lcd.println("12345"); 
   lcd.setCursor(183, 145); lcd.println("600"); lcd.setTextSize(3); 
   lcd.setCursor(85, 145); lcd.println("8888");
+}
+
+void configMenu() {
+ lcd.fillScreen(_black);
+ drawCross(uvPurple, "thin");
+ //drawCross(uvPurple, "thick");
+ for (uint8_t _x = 0; _x <= 60; _x += 10) {
+  lcd.drawLine(0, (120 - _x), 240, (120 - _x), uvPurple);
+  lcd.drawLine(0, (120 + _x), 240, (120 + _x), uvPurple);
+  lcd.drawLine(0, (120 - (_x - 10)), 240, (120 - (_x - 10)), _black);
+  lcd.drawLine(0, (120 + (_x - 10)), 240, (120 + (_x - 10)), _black);
+  delay(100);
+ }
+  drawCross(uvPurple, "thin");
+  lcd.setTextColor(monGreen);
+  lcd.setTextSize(2); lcd.setCursor(60, 25); lcd.println("Reset");
+  lcd.setCursor(50, 45); lcd.println("Default"); lcd.setCursor(130, 25);
+  lcd.println("Clear"); lcd.setCursor(130, 45); lcd.println("Saved");
+  lcd.setCursor(15, 90); lcd.println("Resolution"); lcd.setCursor(125, 80);
+  lcd.println("Measurment"); lcd.setCursor(125, 100); lcd.println("Rate");
+  lcd.setCursor(20, 150); lcd.println("Gain Rate"); lcd.setCursor(125, 150); lcd.println("Gain Range"); lcd.setCursor(60, 210); lcd.println("Save");
+  lcd.setCursor(140, 210); lcd.println("Exit");
 }
