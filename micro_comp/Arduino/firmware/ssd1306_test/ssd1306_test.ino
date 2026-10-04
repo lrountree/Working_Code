@@ -100,7 +100,7 @@ void loop() {
   u8g2.clearBuffer();
   u8g2.drawFrame(28, 24, 72, 40);
   u8g2.setCursor(45, 48);
-  u8g2.print(potVal);
+  u8g2.print(potVal/40);
   u8g2.sendBuffer();
 
   if (cap_state != cap_init) {
@@ -145,7 +145,7 @@ void deBounce(int pin_ID, bool last_state, int db_time) {
   } else {
     return;
   }
-  if (db_time > 80) {
+  if (db_time > 40) {
     return;
   } else {
     deBounce(pin_ID, last_state, db_time);
